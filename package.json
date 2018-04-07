@@ -9,12 +9,10 @@
   "scripts": {
     "start": "babel-node ./src/index.js",
     "build": "babel src -d dist",
-    "deploy": "now --docker && now alias"
+    "deploy": "yarn build && now --docker && now alias"
   },
   "now": {
-    "alias": [
-      "nike.babol.io"
-    ]
+    "alias": ["nike.babol.io"]
   },
   "repository": {
     "type": "git",
