@@ -1,5 +1,8 @@
 import puppeteer from 'puppeteer';
 
+const randomDelay = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
 const randomText = () => {
   let text = '';
   const possible =
@@ -14,6 +17,7 @@ const randomText = () => {
 const loginToNike = (login, password) => {
   return new Promise(async res => {
     const browser = await puppeteer.launch({
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
@@ -42,53 +46,42 @@ const loginToNike = (login, password) => {
     await page.waitForSelector(loginSelector);
     await page.click(loginSelector);
 
-    await page.waitFor(Math.floor(Math.random() * 500));
+    const emailSelector = '.nike-unite-text-input.emailAddress input';
+    await page.waitFor(emailSelector);
+    await page.waitFor(randomDelay(300, 600));
 
-    const inputs = [
-      '.nike-unite-text-input.emailAddress input',
-      '.nike-unite-text-input.password input',
-    ];
-    await page.waitForSelector(inputs[0]);
+    const inputs = [emailSelector, '.nike-unite-text-input.password input'];
+
+    // random thing -> human behavior
     await page.type(inputs[0], randomText(), {
-      delay: Math.floor(Math.random() * 300) + 1,
+      delay: randomDelay(150, 250),
     });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
-    await page.keyboard.press('Backspace', {
-      delay: Math.floor(Math.random() * 300) + 1,
-    });
+    for (var i = 0; i < randomDelay(6, 10); i++) {
+      await page.keyboard.press('Backspace', {
+        delay: randomDelay(150, 250),
+      });
+    }
+
     await page.type(inputs[0], login, {
-      delay: Math.floor(Math.random() * 300) + 1,
+      delay: randomDelay(200, 300),
     });
 
-    await page.waitFor(Math.floor(Math.random() * 3000));
+    await page.waitFor(randomDelay(300, 600));
     await page.type(inputs[1], password, {
-      delay: Math.floor(Math.random() * 300) + 1,
+      delay: randomDelay(200, 300),
     });
 
     const submitBtn = '.nike-unite-submit-button.loginSubmit input';
 
-    await page.waitFor(Math.floor(Math.random() * 500));
+    await page.waitFor(randomDelay(200, 500));
 
     await page.waitForSelector(submitBtn);
     await page.click('.nike-unite-swoosh');
+    await page.hover('.nike-unite-swoosh');
+    await page.waitFor(randomDelay(200, 400));
     await page.click('.view-header');
+    await page.hover('.nike-unite-swoosh');
+    await page.waitFor(randomDelay(200, 400));
     await page.hover('.view-header');
     await page.click(submitBtn);
 
@@ -99,6 +92,7 @@ const loginToNike = (login, password) => {
         response.url().indexOf('https://unite.nike.com/login') > -1 &&
         response.request().method() === 'POST'
       ) {
+        console.log(response.status());
         const data = await response.json();
         browserClosed = true;
         await browser.close();
