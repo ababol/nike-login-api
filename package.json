@@ -1,10 +1,10 @@
 {
-  "name": "nike-plus-login-micro",
+  "name": "nike-login-api",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "engines": {
-    "node": "8.11"
+    "node": "8"
   },
   "scripts": {
     "start": "babel-node ./src/index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ababol/nike-plus-login-micro.git"
+    "url": "git+https://github.com/ababol/nike-login-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ababol/nike-plus-login-micro/issues"
+    "url": "https://github.com/ababol/nike-login-api/issues"
   },
-  "homepage": "https://github.com/ababol/nike-plus-login-micro#readme",
+  "homepage": "https://github.com/ababol/nike-login-api#readme",
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "body-parser": "^1.18.2",

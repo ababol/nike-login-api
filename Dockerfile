@@ -1,19 +1,17 @@
-FROM dockerinpractice/docker-puppeteer
-LABEL name=nike-strava
+FROM zenato/puppeteer
+LABEL name=nike-login-api
 
-USER puser
+USER root
 
 # Create app directory
-RUN mkdir -p /home/puser/app
-WORKDIR /home/puser/app
+WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json package-lock.json ./
-CMD [ "npm", "install" ]
-CMD [ "npm", "run", "build" ]
+COPY package.json yarn.lock ./
+RUN yarn --pure-lockfile
 
 # Bundle app source
 COPY . .
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

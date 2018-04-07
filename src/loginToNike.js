@@ -14,11 +14,16 @@ const randomText = () => {
 const loginToNike = (login, password) => {
   return new Promise(async res => {
     const browser = await puppeteer.launch({
-      headless: false,
-      args: ['--no-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
+    );
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
+    });
     await page.goto('https://www.nike.com/us/en_us/e/nike-plus-membership', {
       waitUntil: 'networkidle0',
     });
