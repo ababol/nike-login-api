@@ -31,26 +31,12 @@ const loginToNike = (login, password) => {
     await page.goto('https://www.nike.com/us/en_us/e/nike-plus-membership', {
       waitUntil: 'networkidle0',
     });
-    // const cookies = await page.cookies();
-    //
-    // const sessionFreeCookies = cookies.map(
-    //   async cookie =>
-    //     await page.setCookie({
-    //       ...cookie,
-    //       expires: Date.now() / 1000 + 10 * 60,
-    //       session: false,
-    //     }),
-    // );
 
-    const loginSelector = '.login-text';
-    await page.waitForSelector(loginSelector);
-    await page.click(loginSelector);
-
-    const emailSelector = '.nike-unite-text-input.emailAddress input';
+    const emailSelector = 'input[name=emailAddress]';
     await page.waitFor(emailSelector);
     await page.waitFor(randomDelay(300, 600));
 
-    const inputs = [emailSelector, '.nike-unite-text-input.password input'];
+    const inputs = [emailSelector, 'input[name=password]'];
 
     // random thing -> human behavior
     await page.type(inputs[0], randomText(), {
@@ -71,7 +57,7 @@ const loginToNike = (login, password) => {
       delay: randomDelay(200, 300),
     });
 
-    const submitBtn = '.nike-unite-submit-button.loginSubmit input';
+    const submitBtn = 'input[type=button]';
 
     await page.waitFor(randomDelay(200, 500));
 
